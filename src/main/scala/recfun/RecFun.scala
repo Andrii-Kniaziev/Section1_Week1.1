@@ -15,24 +15,25 @@ object RecFun extends RecFunInterface:
    * Exercise 1
    */
   def pascal(c: Int, r: Int): Int = {
-    def getRow(r: Int): util.ArrayList[Integer] = {
-      val currow = new util.ArrayList[Integer]
-
-      currow.add(1)
+    def getRow(r: Int): List[Int] = {
+      val currow = List(1)
 
       if (r == 0) return currow
 
       val prev = getRow(r - 1)
-      for (i <- 1 until prev.size) {
-        val curr = prev.get(i - 1) + prev.get(i)
-        currow.add(curr)
-      }
-      currow.add(1)
 
-      currow
+      def acc(to: List[Int], from: List[Int]): List[Int] = from match {
+        case Nil => to
+        case x :: xs => xs match {
+          case Nil => to ++ List(x)
+          case y :: ys => acc(to ++ List(x + y), xs)
+        }
+      }
+
+      acc(currow, prev)
     }
 
-    getRow(r).get(c)
+    getRow(r)(c)
   }
 
   /**
@@ -61,3 +62,4 @@ object RecFun extends RecFunInterface:
     else
       0
   }
+
