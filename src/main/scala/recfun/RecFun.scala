@@ -16,12 +16,6 @@ object RecFun extends RecFunInterface:
    */
   def pascal(c: Int, r: Int): Int = {
     def getRow(r: Int): List[Int] = {
-      val currow = List(1)
-
-      if (r == 0) return currow
-
-      val prev = getRow(r - 1)
-
       def acc(to: List[Int], from: List[Int]): List[Int] = from match {
         case Nil => to
         case x :: xs => xs match {
@@ -30,7 +24,8 @@ object RecFun extends RecFunInterface:
         }
       }
 
-      acc(currow, prev)
+      if (r == 0) List(1)
+      else acc(List(1), getRow(r - 1))
     }
 
     getRow(r)(c)
